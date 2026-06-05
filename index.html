@@ -1,13 +1,719 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rana-portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rana Alhurtumi — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Satoshi:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p1:#6C63FF;--p2:#FF6584;--p3:#43E97B;--p4:#F9A825;
+  --bg:#0A0A0F;--bg2:#12121A;--bg3:#1A1A28;
+  --txt:#F0EDFF;--txt2:#9B9AB0;
+  --g1:linear-gradient(135deg,#6C63FF,#FF6584);
+  --g2:linear-gradient(135deg,#43E97B,#38F9D7);
+  --g3:linear-gradient(135deg,#F9A825,#FF6584);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Satoshi',sans-serif;overflow-x:hidden}
+::selection{background:#6C63FF;color:#fff}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#6C63FF;border-radius:2px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes orbMove{0%{transform:translate(0,0)}33%{transform:translate(30px,-20px)}66%{transform:translate(-20px,15px)}100%{transform:translate(0,0)}}
+@keyframes roleSlide{0%,20%{transform:translateY(0)}25%,45%{transform:translateY(-44px)}50%,70%{transform:translateY(-88px)}75%,95%{transform:translateY(-132px)}100%{transform:translateY(-176px)}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+@keyframes slideBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:translateY(0)}}
+@keyframes marioWalk{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;transition:all .3s;background:transparent}
+nav.scrolled{background:rgba(10,10,15,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.15)}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--txt2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-icons{display:flex;gap:16px;align-items:center}
+.nav-icons a{color:var(--txt2);display:flex;align-items:center;transition:color .2s}
+.nav-icons a:hover{color:#fff}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px;position:relative;overflow:hidden}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.orb1{width:560px;height:560px;background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%);top:-100px;right:-80px;animation:orbMove 14s ease-in-out infinite}
+.orb2{width:360px;height:360px;background:radial-gradient(circle,rgba(255,101,132,.14) 0%,transparent 70%);bottom:-60px;left:5%;animation:orbMove 18s ease-in-out infinite reverse}
+.hero-grid-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(108,99,255,.05) 1px,transparent 1px);background-size:32px 32px}
+.hero-content{position:relative;z-index:2;flex:1;max-width:640px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.25);border-radius:100px;padding:7px 18px;margin-bottom:32px;font-size:12px;font-weight:600;color:#A89FFF;animation:fadeUp .5s ease both}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:#43E97B;box-shadow:0 0 8px #43E97B;animation:pulse 2s infinite}
+.hero-name{font-size:clamp(52px,8vw,92px);font-weight:900;line-height:.95;margin-bottom:10px;animation:fadeUp .5s .1s ease both;font-family:'Syne',sans-serif}
+.hero-name span{display:block;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.role-ticker{height:44px;overflow:hidden;margin-bottom:24px;animation:fadeUp .5s .2s ease both}
+.role-ticker-inner{animation:roleSlide 10s ease-in-out infinite}
+.role-line{height:44px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--p2);letter-spacing:1px}
+.hero-desc{font-size:17px;color:var(--txt2);line-height:1.75;max-width:500px;margin-bottom:48px;animation:fadeUp .5s .3s ease both}
+.hero-desc strong{color:#fff;font-weight:700}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .5s .4s ease both}
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--p1);color:#fff;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s}
+.btn-primary:hover{background:#5a52e0;transform:translateY(-3px);box-shadow:0 16px 40px rgba(108,99,255,.4)}
+.btn-ghost{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s}
+.btn-ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-3px)}
+.hero-visual{position:absolute;right:48px;top:50%;transform:translateY(-50%);display:none}
+@media(min-width:1080px){.hero-visual{display:block}}
+
+/* MARIO */
+#mario-canvas{border-radius:20px;border:1px solid rgba(108,99,255,.3);display:block;background:#1A1A4E}
+
+/* SECTIONS */
+section{padding:100px 48px;position:relative}
+.sec-alt{background:rgba(255,255,255,.015);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-size:clamp(32px,5vw,52px);font-weight:900;line-height:1.1;margin-bottom:14px;font-family:'Syne',sans-serif}
+.sec-title span{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-title .g2{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-title .g3{background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(48px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.why-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px 32px;transition:all .3s;position:relative;overflow:hidden;cursor:default}
+.why-card:hover{background:rgba(255,255,255,.06);border-color:rgba(108,99,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(108,99,255,.15)}
+.why-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,.06),transparent);opacity:0;transition:opacity .3s;border-radius:20px}
+.why-card:hover::before{opacity:1}
+.why-icon{font-size:32px;margin-bottom:16px}
+.why-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
+.why-desc{font-size:13px;color:var(--txt2);line-height:1.7}
+
+/* SKILLS */
+.skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.skill-group-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--p1);margin-bottom:24px;letter-spacing:1px}
+.skill-group-label.g2{color:var(--p3)}
+.skill-item{margin-bottom:20px}
+.skill-top{display:flex;justify-content:space-between;margin-bottom:8px}
+.skill-name{font-size:13px;font-weight:600;color:#fff}
+.skill-level{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt2)}
+.skill-track{height:5px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+.skill-fill{height:5px;border-radius:100px;transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
+.skill-fill.animate{transform:scaleX(1)}
+.fill-p1{background:linear-gradient(90deg,#6C63FF,#FF6584)}
+.fill-p2{background:linear-gradient(90deg,#43E97B,#38F9D7)}
+
+/* PROJECTS */
+.proj-list{display:flex;flex-direction:column;gap:20px}
+.proj-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:220px 1fr;transition:all .3s}
+.proj-card:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(108,99,255,.15)}
+.proj-thumb{overflow:hidden;background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:center;padding:20px;border-right:1px solid rgba(255,255,255,.06)}
+.proj-thumb canvas{border-radius:12px;width:100%;max-width:180px}
+.proj-body{padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between}
+.proj-badge{display:inline-block;font-size:11px;font-family:'JetBrains Mono',monospace;padding:5px 14px;border-radius:100px;margin-bottom:12px;letter-spacing:.5px}
+.proj-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.proj-desc{font-size:13px;color:var(--txt2);line-height:1.65;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 10px;background:rgba(255,255,255,.06);color:var(--txt2);border-radius:6px;border:1px solid rgba(255,255,255,.08)}
+.proj-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.proj-meta{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--txt2)}
+.proj-meta span{color:#fff}
+.gh-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;color:#fff;transition:all .2s}
+.gh-btn:hover{transform:translateY(-2px)}
+
+/* PROJ HOVER BORDER COLOR */
+.proj-card.c1:hover{border-color:rgba(108,99,255,.4)}
+.proj-card.c2:hover{border-color:rgba(255,101,132,.4)}
+.proj-card.c3:hover{border-color:rgba(67,233,123,.4)}
+.proj-card.c4:hover{border-color:rgba(249,168,37,.4)}
+
+/* EXP */
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.exp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:all .3s;cursor:default}
+.exp-card:hover{background:rgba(255,255,255,.06);transform:translateY(-4px)}
+.exp-icon{width:44px;height:44px;border-radius:12px;background:rgba(108,99,255,.12);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;flex-shrink:0}
+.exp-year{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--p1);letter-spacing:1px;margin-bottom:4px}
+.exp-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:3px}
+.exp-org{font-size:13px;font-weight:600;color:var(--p1);margin-bottom:10px}
+.exp-desc{font-size:13px;color:var(--txt2);line-height:1.65}
+
+/* LANG CHIPS */
+.lang-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lang-chip{font-size:12px;font-family:'JetBrains Mono',monospace;padding:4px 12px;background:rgba(108,99,255,.12);color:#A89FFF;border-radius:8px;border:1px solid rgba(108,99,255,.2)}
+
+/* TERMINAL */
+.terminal-sec{background:rgba(5,5,12,.9);border-top:1px solid rgba(108,99,255,.1);border-bottom:1px solid rgba(108,99,255,.1)}
+.terminal-center{text-align:center;margin-bottom:48px}
+.terminal-wrap{max-width:700px;margin:0 auto;background:#0A0A12;border-radius:20px;overflow:hidden;border:1px solid rgba(108,99,255,.2);box-shadow:0 40px 100px rgba(108,99,255,.15)}
+.t-bar{display:flex;align-items:center;gap:7px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(108,99,255,.05)}
+.t-dot{width:10px;height:10px;border-radius:50%}
+.t-title-bar{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(108,99,255,.5);margin-left:8px;letter-spacing:1px}
+.t-body{padding:24px}
+.t-log{height:210px;overflow-y:auto;margin-bottom:20px;scrollbar-width:thin;scrollbar-color:rgba(108,99,255,.2) transparent}
+.t-log::-webkit-scrollbar{width:3px}
+.t-log::-webkit-scrollbar-thumb{background:rgba(108,99,255,.3);border-radius:2px}
+.tl{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2}
+.tl.ok{color:#A89FFF}
+.tl.dim{color:rgba(148,163,184,.4)}
+.tl.warn{color:#FBBF24}
+.tl.err{color:#F87171}
+.tl.user{color:rgba(108,99,255,.7)}
+.t-row{display:flex;align-items:center;gap:10px}
+.t-prompt{font-family:'JetBrains Mono',monospace;font-size:13px;color:#6C63FF;white-space:nowrap}
+.t-inp{flex:1;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:13px;color:#A89FFF;caret-color:#6C63FF}
+.t-inp::placeholder{color:rgba(108,99,255,.25)}
+.t-run{font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 16px;border:1px solid rgba(108,99,255,.35);color:#6C63FF;background:rgba(108,99,255,.08);cursor:pointer;border-radius:6px;letter-spacing:1px;transition:all .2s}
+.t-run:hover{background:rgba(108,99,255,.2)}
+.t-hint{font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(148,163,184,.3);margin-top:12px}
+
+/* FOOTER */
+footer{background:#05050C;border-top:1px solid rgba(255,255,255,.06);padding:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.f-name{font-size:18px;font-weight:800;font-family:'Syne',sans-serif;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.f-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt2)}
+.f-links{display:flex;gap:24px}
+.f-links a{font-size:13px;color:var(--txt2);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:#fff}
+.f-email{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.2);color:#A89FFF;font-family:'JetBrains Mono',monospace;font-size:12px;padding:10px 20px;border-radius:8px;text-decoration:none;transition:all .2s}
+.f-email:hover{background:rgba(108,99,255,.18)}
+
+/* SECTION DIVIDER */
+.proj-section-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--txt2);letter-spacing:1px;margin:40px 0 20px}
+
+@media(max-width:768px){
+  nav{padding:12px 20px}
+  .nav-links{display:none}
+  section{padding:70px 20px}
+  footer{padding:40px 20px}
+  .proj-card{grid-template-columns:1fr}
+  .proj-thumb{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);height:160px}
+  .skills-wrap{grid-template-columns:1fr}
+  .hero{padding:100px 20px 60px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">rana.dev</div>
+  <div class="nav-links">
+    <a href="#why">Why me</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-icons">
+    <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <a href="tel:+966558240923" aria-label="Phone">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </a>
+    <a href="mailto:rnaahmd240@gmail.com" aria-label="Email">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span>Open to opportunities</div>
+    <h1 class="hero-name">Rana<span>Alhurtumi</span></h1>
+    <div class="role-ticker">
+      <div class="role-ticker-inner">
+        <div class="role-line">// 3D Modeler</div>
+        <div class="role-line">// Blender Artist</div>
+        <div class="role-line">// Software Engineer</div>
+        <div class="role-line">// Game Asset Creator</div>
+        <div class="role-line">// 3D Modeler</div>
+      </div>
+    </div>
+    <p class="hero-desc">I build <strong>clean topology</strong> and <strong>clean code</strong>.<br/>Game assets that run in engines. Systems that don't break.</p>
+    <div class="hero-btns">
+      <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:rnaahmd240@gmail.com" class="btn-ghost">Contact me</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <canvas id="mario-canvas" width="300" height="260"></canvas>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section id="why" class="sec-alt">
+  <div class="reveal">
+    <p class="sec-label" style="color:var(--p1)">// Why me</p>
+    <h2 class="sec-title">An engineer who<br/><span>builds assets.</span></h2>
+  </div>
+  <div class="why-grid" style="margin-top:56px">
+    <div class="why-card reveal">
+      <div class="why-icon">📐</div>
+      <div class="why-title">Technical precision</div>
+      <p class="why-desc">Polycount budgets, draw calls, engine limits — not new concepts. I understand constraints before touching a mesh.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">Fast iteration</div>
+      <p class="why-desc">Agile-trained developer. Feedback accelerates my work, it doesn't stall it.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🗂️</div>
+      <div class="why-title">Clean delivery</div>
+      <p class="why-desc">Named files, organised outliner, zero chaos. Same discipline that writes clean code writes clean geometry.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🎮</div>
+      <div class="why-title">Real passion</div>
+      <p class="why-desc">Resident Evil and Mario are why I chose this field. The universes I model, I love.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <p class="sec-label" style="color:var(--p3)">// Skills</p>
+    <h2 class="sec-title">What I bring<br/><span class="g2">to the table.</span></h2>
+  </div>
+  <div class="skills-wrap" style="margin-top:56px">
+    <div>
+      <p class="skill-group-label">▸ Blender — 3D Modeling</p>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">Hard surface modeling</span><span class="skill-level">beginner</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p1" style="--w:62%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">Topology &amp; edge flow</span><span class="skill-level">beginner</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p1" style="--w:58%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">UV unwrapping</span><span class="skill-level">beginner</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p1" style="--w:55%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">PBR materials</span><span class="skill-level">early stage</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p1" style="--w:42%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">File management &amp; handoff</span><span class="skill-level">strong</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p1" style="--w:90%"></div></div>
+      </div>
+    </div>
+    <div>
+      <p class="skill-group-label g2">▸ Engineering (supporting foundation)</p>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">Python</span><span class="skill-level">proficient</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p2" style="--w:88%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">JavaScript / React</span><span class="skill-level">proficient</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p2" style="--w:83%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">Django / REST API</span><span class="skill-level">proficient</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p2" style="--w:85%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">PostgreSQL / SQL</span><span class="skill-level">comfortable</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p2" style="--w:78%"></div></div>
+      </div>
+      <div class="skill-item reveal">
+        <div class="skill-top"><span class="skill-name">Docker / Git</span><span class="skill-level">comfortable</span></div>
+        <div class="skill-track"><div class="skill-fill fill-p2" style="--w:76%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="sec-alt">
+  <div class="reveal">
+    <p class="sec-label" style="color:var(--p2)">// Projects</p>
+    <h2 class="sec-title">What I built<br/><span class="g3">&amp; what I'm building.</span></h2>
+  </div>
+
+  <p class="proj-section-label">▸ 3D Assets — Blender</p>
+  <div class="proj-list">
+    <div class="proj-card c1 reveal">
+      <div class="proj-thumb"><canvas id="c-flash" width="180" height="160"></canvas></div>
+      <div class="proj-body">
+        <div>
+          <span class="proj-badge" style="background:rgba(108,99,255,.12);color:#A89FFF">🔦 Resident Evil · Prop · Done ✓</span>
+          <div class="proj-title">Tactical Flashlight</div>
+          <p class="proj-desc">Hard surface prop in Blender — scratched metal PBR, emissive lens, clean topology (~2,100 tris). UV-optimised, FBX export ready. Wireframe, UV layout, and render included in the repo.</p>
+          <div class="chips"><span class="chip">Blender 4.x</span><span class="chip">Hard surface</span><span class="chip">~2,100 tris</span><span class="chip">PBR metal</span><span class="chip">UV mapped</span><span class="chip">FBX</span></div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta">Role: <span>Modeler · UV Artist</span></span>
+          <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" class="gh-btn" style="background:#6C63FF">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card c2 reveal">
+      <div class="proj-thumb"><canvas id="c-mario" width="180" height="160"></canvas></div>
+      <div class="proj-body">
+        <div>
+          <span class="proj-badge" style="background:rgba(255,101,132,.12);color:#FF6584">🍄 Mario · Prop · Done ✓</span>
+          <div class="proj-title">Question Block &amp; Gold Coin</div>
+          <p class="proj-desc">Stylized prop set in Blender — bright PBR, shared UV atlas (~1,200 tris). Consistent scale, engine-ready. Wireframe, UV layout, and final render included.</p>
+          <div class="chips"><span class="chip">Blender 4.x</span><span class="chip">Stylized</span><span class="chip">~1,200 tris</span><span class="chip">UV atlas</span><span class="chip">Low-poly</span><span class="chip">GLB</span></div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta">Role: <span>Modeler · UV Artist</span></span>
+          <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" class="gh-btn" style="background:#FF6584">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="proj-section-label">▸ Software Projects — Code</p>
+  <div class="proj-list">
+    <div class="proj-card c3 reveal">
+      <div class="proj-thumb"><canvas id="c-sm" width="180" height="160"></canvas></div>
+      <div class="proj-body">
+        <div>
+          <span class="proj-badge" style="background:rgba(67,233,123,.1);color:#43E97B">Full-Stack · Solo · 2025</span>
+          <div class="proj-title">SmartMargin</div>
+          <p class="proj-desc">Web app for small business owners — real-time profit margin calculator with visual cost breakdown charts. React frontend connected to a Django REST API.</p>
+          <div class="chips"><span class="chip">React</span><span class="chip">Django REST</span><span class="chip">PostgreSQL</span><span class="chip">Chart.js</span></div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta">Type: <span>Solo · Full-stack</span></span>
+          <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" class="gh-btn" style="background:#43E97B;color:#000">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card c4 reveal">
+      <div class="proj-thumb"><canvas id="c-bank" width="180" height="160"></canvas></div>
+      <div class="proj-body">
+        <div>
+          <span class="proj-badge" style="background:rgba(249,168,37,.1);color:#F9A825">Python · OOP · Solo · 2025</span>
+          <div class="proj-title">Banking System</div>
+          <p class="proj-desc">Terminal-based banking app in Python — OOP architecture, file handling, full exception handling. Zero dependencies, clean maintainable code.</p>
+          <div class="chips"><span class="chip">Python</span><span class="chip">OOP</span><span class="chip">File I/O</span><span class="chip">CLI</span></div>
+        </div>
+        <div class="proj-foot">
+          <span class="proj-meta">Type: <span>Solo · Backend</span></span>
+          <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" class="gh-btn" style="background:#F9A825;color:#000">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section>
+  <div class="reveal">
+    <p class="sec-label" style="color:var(--p4)">// Experience &amp; Education</p>
+    <h2 class="sec-title">My<br/><span class="g3">journey.</span></h2>
+  </div>
+  <div class="exp-grid" style="margin-top:56px">
+    <div class="exp-card reveal">
+      <div class="exp-icon">💼</div>
+      <div class="exp-year">2025</div>
+      <div class="exp-title">Software Engineering Bootcamp</div>
+      <div class="exp-org">General Assembly / SDA Academy</div>
+      <p class="exp-desc">Intensive full-stack bootcamp — Python, Django, React, PostgreSQL, Docker. Agile workflow, shipping under real deadlines.</p>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-icon">🎓</div>
+      <div class="exp-year">2024</div>
+      <div class="exp-title">BSc Computer Science</div>
+      <div class="exp-org">Umm Al-Qura University — Makkah</div>
+      <p class="exp-desc">Strong CS foundation: algorithms, databases, software engineering, and systems architecture.</p>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-icon">⬡</div>
+      <div class="exp-year">2025+</div>
+      <div class="exp-title">3D Modeler (Learning)</div>
+      <div class="exp-org">Self-directed · Blender 4.x</div>
+      <p class="exp-desc">Applying engineering discipline to 3D — clean topology, UV unwrapping, PBR materials. Assets on GitHub, always public.</p>
+    </div>
+  </div>
+  <div class="exp-card reveal" style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+    <div>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt2);margin-bottom:8px;letter-spacing:1px">Languages</p>
+      <div class="lang-chips">
+        <span class="lang-chip">Arabic — Native</span>
+        <span class="lang-chip">English — Professional</span>
+        <span class="lang-chip">Italian — Conversational</span>
+      </div>
+    </div>
+    <a href="https://github.com/ranaahmd" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(108,99,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      github.com/ranaahmd
+    </a>
+  </div>
+</section>
+
+<!-- TERMINAL -->
+<section id="contact" class="terminal-sec">
+  <div class="terminal-center reveal">
+    <p class="sec-label" style="color:var(--p1);display:block;text-align:center">// Interactive</p>
+    <h2 class="sec-title" style="text-align:center">Ask me <span>anything.</span></h2>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--txt2);margin-top:8px">try: skills / projects / re / mario / contact / blender</p>
+  </div>
+  <div class="terminal-wrap reveal">
+    <div class="t-bar">
+      <div class="t-dot" style="background:#FF5F57"></div>
+      <div class="t-dot" style="background:#FEBC2E"></div>
+      <div class="t-dot" style="background:#28C840"></div>
+      <span class="t-title-bar">RANA.TERMINAL</span>
+    </div>
+    <div class="t-body">
+      <div class="t-log" id="t-log">
+        <div class="tl dim">[BOOT] system ready...</div>
+        <div class="tl ok">[OK] Type "help" for all commands.</div>
+        <div class="tl dim">&nbsp;</div>
+      </div>
+      <div class="t-row">
+        <span class="t-prompt">rana@portfolio:~$</span>
+        <input class="t-inp" id="t-inp" type="text" placeholder="enter command..." autocomplete="off"/>
+        <button class="t-run" id="t-run">RUN</button>
+      </div>
+      <div class="t-hint">💡 try "re" for a Resident Evil moment</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="f-name">Rana Alhurtumi</div>
+    <div class="f-sub">Software Engineer · 3D Modeler · Blender</div>
+  </div>
+  <div class="f-links">
+    <a href="https://github.com/ranaahmd" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:rnaahmd240@gmail.com">Email</a>
+    <a href="tel:+966558240923">+966 55 824 0923</a>
+  </div>
+  <a href="mailto:rnaahmd240@gmail.com" class="f-email">rnaahmd240@gmail.com</a>
+</footer>
+
+<script>
+/* NAV SCROLL */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
+});
+
+/* REVEAL ON SCROLL */
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      const fill=e.target.querySelector('.skill-fill');
+      if(fill){
+        const w=fill.style.getPropertyValue('--w');
+        setTimeout(()=>{fill.style.width=w;fill.classList.add('animate');},100);
+      }
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* MARIO ANIMATION */
+(function(){
+  const c=document.getElementById('mario-canvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=300,H=260,S=3;
+  const CLR={sk:'#FFD19A',r:'#E63946',b:'#2979FF',br:'#6D3A1F',w:'#fff'};
+  const H2='r',SK='sk',SH='r',OV='b',SHO='br';
+  const FR=[
+    [[0,0,H2,H2,H2,0,0,0],[0,H2,H2,H2,H2,H2,0,0],[0,SHO,SHO,SK,SK,SHO,0,0],[0,SK,SK,SK,SK,SK,SK,0],[0,SH,SH,SK,SH,SH,0,0],[SH,SH,SH,SH,SH,SH,SH,0],[0,SK,SK,SK,SK,SK,0,0],[0,OV,OV,OV,OV,OV,0,0],[OV,OV,SK,OV,SK,OV,OV,0],[0,SK,SK,0,SK,SK,0,0],[0,SHO,SHO,0,SHO,SHO,0,0],[0,SHO,SHO,0,SHO,SHO,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]],
+    [[0,0,H2,H2,H2,0,0,0],[0,H2,H2,H2,H2,H2,0,0],[0,SHO,SHO,SK,SK,SHO,0,0],[0,SK,SK,SK,SK,SK,SK,0],[0,SH,SH,SK,SH,SH,0,0],[SH,SH,SH,SH,SH,SH,SH,0],[0,SK,SK,SK,SK,SK,0,0],[0,OV,OV,OV,OV,OV,0,0],[OV,OV,OV,OV,0,0,0,0],[SK,SK,OV,0,0,0,0,0],[SHO,SHO,0,0,0,0,0,0],[0,0,0,OV,OV,0,0,0],[0,0,0,SK,SK,0,0,0],[0,0,0,SHO,SHO,0,0,0]],
+    [[0,0,H2,H2,H2,0,0,0],[0,H2,H2,H2,H2,H2,0,0],[0,SHO,SHO,SK,SK,SHO,0,0],[0,SK,SK,SK,SK,SK,SK,0],[0,SH,SH,SK,SH,SH,0,0],[SH,SH,SH,SH,SH,SH,SH,0],[0,SK,SK,SK,SK,SK,0,0],[0,OV,OV,OV,OV,OV,0,0],[0,0,0,OV,OV,OV,OV,0],[0,0,0,0,OV,SK,SK,0],[0,0,0,0,0,SHO,SHO,0],[OV,OV,0,0,0,0,0,0],[SK,SK,0,0,0,0,0,0],[SHO,SHO,0,0,0,0,0,0]],
+    [[0,0,H2,H2,H2,0,0,0],[0,H2,H2,H2,H2,H2,0,0],[0,SHO,SHO,SK,SK,SHO,0,0],[0,SK,SK,SK,SK,SK,SK,0],[SH,SH,SH,SK,SH,SH,SH,0],[SH,SH,SH,SH,SH,SH,SH,0],[0,SK,SK,SK,SK,SK,0,0],[OV,OV,OV,OV,OV,OV,0,0],[OV,SK,OV,OV,OV,SK,OV,0],[0,SK,SHO,0,SHO,SK,0,0],[0,SHO,0,0,0,SHO,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]],
+  ];
+  const GY=H-50;
+  const clouds=[{x:20,y:30,w:80,s:.3},{x:160,y:15,w:100,s:.2},{x:260,y:42,w:65,s:.35}];
+  const blocks=[{x:55,y:160},{x:130,y:160},{x:205,y:160}];
+  const coins=[{x:75,y:150,vy:-3,alive:true},{x:150,y:145,vy:-2.5,alive:false},{x:225,y:150,vy:-3.2,alive:false}];
+  let mx=10,my=GY-14*S,vx=1.4,vy=0,onG=true,wc=0,tick=0,dir=1,jt=80,coinT=0,score=0;
+
+  function spr(f,px,py,flip){
+    ctx.save();
+    if(flip){ctx.translate(px+8*S,0);ctx.scale(-1,1);px=0;}
+    FR[f].forEach((row,r)=>row.forEach((col,cc)=>{
+      if(!col)return;
+      ctx.fillStyle=CLR[col]||col;
+      ctx.fillRect(Math.round(px+cc*S),Math.round(py+r*S),S,S);
+    }));
+    ctx.restore();
+  }
+  function cloud(cx,cy,cw){
+    ctx.fillStyle='rgba(255,255,255,.12)';
+    ctx.beginPath();ctx.ellipse(cx+cw*.35,cy+16,cw*.35,12,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(cx+cw*.65,cy+18,cw*.28,10,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(cx+cw*.5,cy+8,cw*.28,12,0,0,Math.PI*2);ctx.fill();
+  }
+  function block(bx,by){
+    ctx.fillStyle='#7B5EA7';ctx.fillRect(bx,by,24,24);
+    ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(bx+2,by+2,20,4);
+    ctx.fillStyle='#FFD700';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('?',bx+12,by+13);
+  }
+  let raf;
+  function loop(){
+    tick++;score=Math.floor(tick*1.5);
+    const g=ctx.createLinearGradient(0,0,0,GY);
+    g.addColorStop(0,'#1A1A4E');g.addColorStop(1,'#2D1B69');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,GY);
+    clouds.forEach(cl=>{cl.x-=cl.s;if(cl.x+cl.w<0)cl.x=W+10;cloud(cl.x,cl.y,cl.w);});
+    blocks.forEach(b=>block(b.x,b.y));
+    coinT++;
+    if(coinT===90)coins[1].alive=true;
+    if(coinT===180){coins[2].alive=true;coinT=0;}
+    coins.forEach(cn=>{
+      if(!cn.alive)return;
+      const cg=ctx.createRadialGradient(cn.x,cn.y,1,cn.x,cn.y,8);
+      cg.addColorStop(0,'#FFF176');cg.addColorStop(1,'#F9A825');
+      ctx.fillStyle=cg;ctx.beginPath();ctx.arc(cn.x,cn.y,7,0,Math.PI*2);ctx.fill();
+      cn.y+=cn.vy;cn.vy+=.15;
+      if(cn.y>GY){cn.alive=false;cn.y=150;cn.vy=-3;}
+    });
+    ctx.fillStyle='#1B5E20';ctx.fillRect(0,GY,W,50);
+    ctx.fillStyle='#2E7D32';ctx.fillRect(0,GY,W,8);
+    ctx.fillStyle='rgba(0,0,0,.2)';
+    for(let gx=0;gx<W;gx+=26){ctx.fillRect(gx,GY+10,24,8);}
+    for(let gx=13;gx<W;gx+=26){ctx.fillRect(gx,GY+20,24,8);}
+    mx+=vx;
+    if(mx>W-24){mx=W-24;vx=-Math.abs(vx);dir=-1;}
+    if(mx<0){mx=0;vx=Math.abs(vx);dir=1;}
+    if(onG){jt--;if(jt<=0){vy=-5.8;onG=false;jt=Math.floor(Math.random()*70)+50;}}
+    if(!onG){my+=vy;vy+=.3;if(my>=GY-14*S){my=GY-14*S;vy=0;onG=true;}}
+    if(onG&&tick%10===0)wc=(wc+1)%2;
+    spr(onG?(wc===0?1:2):3,Math.round(mx),Math.round(my),dir<0);
+    ctx.fillStyle='rgba(108,99,255,.2)';ctx.fillRect(0,0,W,22);
+    ctx.fillStyle='#C5CAE9';ctx.font='bold 10px "JetBrains Mono",monospace';
+    ctx.textAlign='left';ctx.fillText('RANA ×∞',8,14);
+    ctx.textAlign='right';ctx.fillText('⭐ '+score,W-8,14);
+    raf=requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* PROJECT CANVASES */
+function drawFlash(){
+  const c=document.getElementById('c-flash');if(!c)return;
+  const ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.fillStyle='#0D0D1A';ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='rgba(108,99,255,.12)';ctx.lineWidth=.5;
+  for(let x=0;x<w;x+=16){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
+  for(let y=0;y<h;y+=16){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+  const fw=120,fh=40,fx=12,fy=Math.floor(h/2-fh/2);
+  const g=ctx.createLinearGradient(fx,0,fx+fw,0);
+  g.addColorStop(0,'rgba(108,99,255,.35)');g.addColorStop(1,'rgba(255,101,132,.35)');
+  ctx.fillStyle=g;ctx.fillRect(fx,fy,fw,fh);
+  ctx.strokeStyle='rgba(108,99,255,.8)';ctx.lineWidth=1;ctx.strokeRect(fx,fy,fw,fh);
+  [.25,.5,.75].forEach(p=>{ctx.strokeStyle='rgba(108,99,255,.25)';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(fx+fw*p,fy);ctx.lineTo(fx+fw*p,fy+fh);ctx.stroke()});
+  ctx.beginPath();ctx.moveTo(fx+fw,fy-10);ctx.lineTo(fx+fw+24,fy+fh/2);ctx.lineTo(fx+fw,fy+fh+10);ctx.closePath();
+  ctx.fillStyle='rgba(67,233,123,.08)';ctx.fill();ctx.strokeStyle='rgba(67,233,123,.5)';ctx.lineWidth=1;ctx.stroke();
+  ctx.beginPath();ctx.arc(fx+fw+20,fy+fh/2,5,0,Math.PI*2);ctx.fillStyle='rgba(67,233,123,.7)';ctx.fill();
+  ctx.fillStyle='rgba(108,99,255,.4)';ctx.font='9px "JetBrains Mono",monospace';ctx.textAlign='left';ctx.fillText('wireframe · UV · render',8,h-7);
+}
+function drawQBlock(){
+  const c=document.getElementById('c-mario');if(!c)return;
+  const ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.fillStyle='#0D0D1A';ctx.fillRect(0,0,w,h);
+  const sz=8,g=7,ox=20,oy=Math.floor((h-g*sz)/2);
+  const blk=[[1,1,1,1,1,1,1],[1,1,0,0,0,1,1],[1,0,0,1,0,0,1],[1,0,0,0,0,0,1],[1,0,0,1,0,0,1],[1,1,0,0,0,1,1],[1,1,1,1,1,1,1]];
+  blk.forEach((row,r)=>row.forEach((v,col)=>{
+    const bg=ctx.createLinearGradient(0,0,w,h);
+    bg.addColorStop(0,'rgba(108,99,255,.35)');bg.addColorStop(1,'rgba(255,101,132,.35)');
+    ctx.fillStyle=v?bg:'rgba(255,255,255,.03)';
+    ctx.fillRect(ox+col*sz,oy+r*sz,sz-1,sz-1);
+    if(v){ctx.strokeStyle='rgba(108,99,255,.5)';ctx.lineWidth=.3;ctx.strokeRect(ox+col*sz,oy+r*sz,sz-1,sz-1);}
+  }));
+  ctx.fillStyle='rgba(255,215,0,.9)';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('?',ox+3.5*sz,oy+3.5*sz);ctx.textAlign='left';
+  const cr=16,cx=ox+g*sz+20+cr,cy=oy+g*sz/2;
+  const cg=ctx.createRadialGradient(cx,cy,2,cx,cy,cr);
+  cg.addColorStop(0,'rgba(249,168,37,.9)');cg.addColorStop(1,'rgba(249,168,37,.2)');
+  ctx.beginPath();ctx.arc(cx,cy,cr,0,Math.PI*2);ctx.fillStyle=cg;ctx.fill();
+  ctx.fillStyle='rgba(108,99,255,.4)';ctx.font='9px "JetBrains Mono",monospace';ctx.fillText('wireframe · UV · render',8,h-7);
+}
+function drawSM(){
+  const c=document.getElementById('c-sm');if(!c)return;
+  const ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.fillStyle='#0D0D1A';ctx.fillRect(0,0,w,h);
+  const vals=[.42,.68,.53,.81,.63,.77,.91,.58];
+  const bw=14;
+  vals.forEach((v,i)=>{
+    const x=12+i*(bw+6),bh=Math.floor(v*(h-44));
+    const bg=ctx.createLinearGradient(0,h-24-bh,0,h-24);
+    bg.addColorStop(0,'rgba(67,233,123,.8)');bg.addColorStop(1,'rgba(56,249,215,.8)');
+    ctx.fillStyle=bg;ctx.fillRect(x,h-24-bh,bw,bh);
+    ctx.strokeStyle='rgba(67,233,123,.5)';ctx.lineWidth=1;ctx.strokeRect(x,h-24-bh,bw,bh);
+  });
+  ctx.strokeStyle='rgba(67,233,123,.2)';ctx.lineWidth=.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(8,h*.3);ctx.lineTo(w-8,h*.3);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(67,233,123,.4)';ctx.font='9px "JetBrains Mono",monospace';ctx.textAlign='left';ctx.fillText('profit margin · live chart',8,h-7);
+}
+function drawBank(){
+  const c=document.getElementById('c-bank');if(!c)return;
+  const ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.fillStyle='#0D0D1A';ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='rgba(249,168,37,.2)';ctx.lineWidth=.5;ctx.strokeRect(6,6,w-12,h-12);
+  [{t:'> INIT BankingSystem()',c:'rgba(249,168,37,.9)'},{t:'> account: Rana created',c:'rgba(249,168,37,.55)'},{t:'> deposit(5000) ✓',c:'rgba(249,168,37,.55)'},{t:'> balance: SAR 5,000',c:'rgba(249,168,37,.9)'},{t:'> withdraw(1200) ✓',c:'rgba(249,168,37,.55)'},{t:'> balance: SAR 3,800',c:'rgba(249,168,37,.9)'}].forEach((l,i)=>{
+    ctx.fillStyle=l.c;ctx.font='10px "JetBrains Mono",monospace';ctx.textAlign='left';ctx.fillText(l.t,12,26+i*19);
+  });
+}
+window.addEventListener('load',()=>{drawFlash();drawQBlock();drawSM();drawBank();});
+
+/* TERMINAL */
+const CMDS={
+  help:()=>[{k:'ok',v:'skills / projects / contact / blender / re / mario / github / clear'}],
+  skills:()=>[{k:'ok',v:'[3D]   Blender · hard surface · topology · UV · PBR (beginner)'},{k:'ok',v:'[CODE] Python · Django · React · Node.js · PostgreSQL · Git'},{k:'dim',v:'Engineering background = fast iteration + clean files.'}],
+  projects:()=>[{k:'ok',v:'[✓] Tactical Flashlight — RE · ~2,100 tris'},{k:'ok',v:'[✓] Question Block & Coin — Mario · ~1,200 tris'},{k:'ok',v:'[CODE] SmartMargin — React + Django'},{k:'ok',v:'[CODE] Banking System — Python OOP'}],
+  contact:()=>[{k:'ok',v:'Email:  rnaahmd240@gmail.com'},{k:'ok',v:'Phone:  +966 55 824 0923'},{k:'ok',v:'GitHub: github.com/ranaahmd'}],
+  github:()=>[{k:'ok',v:'github.com/ranaahmd'},{k:'dim',v:'.blend + wireframe + UV + render. Always public.'}],
+  blender:()=>[{k:'dim',v:'Workflow: Reference → Blockout → Retopo → UV → PBR → Export'},{k:'ok',v:'Output: FBX / GLB · clean naming · organised outliner'},{k:'dim',v:'Honest beginner. Fast learner. Clean files guaranteed.'}],
+  re:()=>[{k:'warn',v:'[WARNING] RACCOON CITY — COMM NETWORK OFFLINE'},{k:'warn',v:'[ALERT]   Hostile entities in sector 7-G'},{k:'ok',v:'[ASSET]   Tactical Flashlight — done · on GitHub'},{k:'dim',v:'[NOTE]    Worn metal, emissive lens, RE precision.'}],
+  mario:()=>[{k:'ok',v:'World 1-1: Question Block + Gold Coin — done ✓'},{k:'dim',v:'Stylized PBR · ~1,200 tris · UV atlas · engine-ready'}],
+};
+function addLine(k,v){
+  const log=document.getElementById('t-log');
+  const d=document.createElement('div');d.className='tl '+k;d.textContent=v;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;
+}
+function runCmd(){
+  const inp=document.getElementById('t-inp');
+  const raw=inp.value.trim().toLowerCase();if(!raw)return;
+  addLine('user','$ '+raw);
+  if(raw==='clear'){document.getElementById('t-log').innerHTML='';inp.value='';return;}
+  const fn=CMDS[raw];
+  const res=fn?fn():[{k:'err',v:'[ERROR] Unknown: "'+raw+'". Type "help".'}];
+  res.forEach(r=>addLine(r.k,r.v));
+  addLine('dim','');inp.value='';
+}
+document.getElementById('t-run').addEventListener('click',runCmd);
+document.getElementById('t-inp').addEventListener('keydown',e=>{if(e.key==='Enter')runCmd();});
+</script>
+</body>
 </html>
